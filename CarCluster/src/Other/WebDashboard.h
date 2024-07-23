@@ -61,6 +61,9 @@ class WebDashboard {
     Card driveModeCard;
     Card outdoorTemperatureCard;
     Card indicatorsBlinkCard;
+    Card cruiseControlCard;
+    Card cruiseControlSpeedCard;
+    Card cruiseControlUpdatedCard;
 
     // Card val0Card(&dashboard, SLIDER_CARD, "VAL0", "", 0, 255);
     // Card val1Card(&dashboard, SLIDER_CARD, "VAL1", "", 0, 255);

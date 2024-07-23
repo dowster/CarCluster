@@ -73,6 +73,7 @@ class BMWFSeriesCluster: public Cluster {
   void sendSteeringWheelButton(int buttonEvent);
   void sendDriveMode(uint8_t driveMode);
   void sendAcc();
+  void sendCruiseControl(bool cruiseControlActivated, uint8_t speed, bool buttonPushed);
 
   uint8_t mapGenericGearToLocalGear(GearState inputGear);
   int mapSpeed(GameState& game);

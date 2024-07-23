@@ -80,6 +80,7 @@ void BMWFSeriesCluster::updateWithGame(GameState& game) {
     sendDistanceTravelled(mapSpeed(game));
     sendAlerts(game.offroadLight, game.doorOpen, game.handbrake, isCarMini);
     sendAcc();
+    sendCruiseControl(game.cruiseControl, (uint8_t)game.cruiseControlSpeed, game.cruiseControlUpdated);
 
     counter4Bit++;
     if (counter4Bit >= 14) { counter4Bit = 0; }
@@ -103,6 +104,13 @@ void BMWFSeriesCluster::updateWithGame(GameState& game) {
 
     lastDashboardUpdateTime1000ms = millis();
   }
+}
+
+void BMWFSeriesCluster::sendCruiseControl(bool cruiseControlActivated, uint8_t speed, bool buttonPushed) {
+  uint8_t firstStatus = cruiseControlActivated ? 0xF5 : 0xF1; // 0xF5 = enabled, 0xF1 disabled
+  uint8_t secondStatus = cruiseControlActivated ? 0x58 : 0x50;
+  unsigned char cruiseControlWithoutCRC[] = { count, 0x46, firstStatus, 0x00, 0xF8, secondStatus, buttonPushed ? 0x01 : 0x00, 0x00 };
+  CAN.sendMsgBuf(0x193, 0, 8, cruiseControlWithoutCRC);
 }
 
 void BMWFSeriesCluster::sendIgnitionStatus(bool ignition) {

@@ -130,6 +130,10 @@ class GameState {
   bool absLight = false;                             // Shows ABS Signal on dashboard
   bool batteryLight = false;                         // Show Battery Warning.
 
+  bool cruiseControl = false;
+  int cruiseControlSpeed = 254;
+  bool cruiseControlUpdated = false;
+
   // Other stuff
   int buttonEventToProcess = 0;                      // Certain clusters have buttons that can perform actions. Set this to activate them - values are cluster dependent
 

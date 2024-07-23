@@ -33,9 +33,12 @@ WebDashboard::WebDashboard(GameState &game, int serverPort, unsigned long webDas
   ignitionCard(&dashboard, BUTTON_CARD, "Ignition"),
   outdoorTemperatureCard(&dashboard, SLIDER_CARD, "Outdoor temperature", "C", -30, 40),
   indicatorsBlinkCard(&dashboard, BUTTON_CARD, "[VW] Indicators blink"),
-  driveModeCard(&dashboard, SLIDER_CARD, "[BMW] Drive mode", "", 1, 7) { 
+  driveModeCard(&dashboard, SLIDER_CARD, "[BMW] Drive mode", "", 1, 7),
+  cruiseControlCard(&dashboard, BUTTON_CARD, "Cruise Control"),
+  cruiseControlSpeedCard(&dashboard, SLIDER_CARD, "Cruise Control Speed", "mph", 0, 120),
+  cruiseControlUpdatedCard(&dashboard, BUTTON_CARD, "Cruise Control Updated") { 
   this->webDashboardUpdateInterval = webDashboardUpdateInterval;
-  introCard.update("Not all functions are available on all clusters");
+  //introCard.update("Not all functions are available on all clusters");
 }
 
 void WebDashboard::begin() {
@@ -174,6 +177,24 @@ void WebDashboard::begin() {
   indicatorsBlinkCard.attachCallback([&](int value) {
     gameState.turningIndicatorsBlinking = (bool)value;
     indicatorsBlinkCard.update(value);
+    dashboard.sendUpdates();
+  });
+
+  cruiseControlCard.attachCallback([&](int value) {
+    gameState.cruiseControl = (bool)value;
+    cruiseControlCard.update(value);
+    dashboard.sendUpdates();
+  });
+
+  cruiseControlSpeedCard.attachCallback([&](int value) {
+    gameState.cruiseControlSpeed = (int)value;
+    cruiseControlSpeedCard.update(value);
+    dashboard.sendUpdates();
+  });
+
+  cruiseControlUpdatedCard.attachCallback([&](int value) {
+    gameState.cruiseControlUpdated = (bool)value;
+    cruiseControlUpdatedCard.update(value);
     dashboard.sendUpdates();
   });
 
